@@ -101,7 +101,7 @@ router_server <- function(router, input, output, session, id = "__router__") {
   })
 }
 
-#' Created a page link
+#' Create a page link
 #'
 #' Take a path to a page and convert it to a link for use in Shiny UI.
 #'

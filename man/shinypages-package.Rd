@@ -8,6 +8,15 @@
 \description{
 A simple multi-page router for Shiny applications, using Shiny modules to selectively render content based on the URL.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/gorcha/shinypages}
+  \item \url{https://gorcha.github.io/shinypages/}
+  \item Report bugs at \url{https://github.com/gorcha/shinypages/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Danny Smith \email{danny@gorcha.org}
 

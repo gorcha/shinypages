@@ -87,7 +87,7 @@ admin_page <- router_page("admin", ui_admin, authorised = is_admin)
 my_router <- router(home_page, cars_page, admin_page)
 
 # Add your router into a Shiny application
-ui <- shiny::fixedPage(
+ui <- fixedPage(
   router_ui()
 )
 

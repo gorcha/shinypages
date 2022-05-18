@@ -2,7 +2,7 @@
 % Please edit documentation in R/shiny.R
 \name{router_link}
 \alias{router_link}
-\title{Created a page link}
+\title{Create a page link}
 \usage{
 router_link(path)
 }
