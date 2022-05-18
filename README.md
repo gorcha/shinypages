@@ -7,6 +7,7 @@
 
 [![Lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html#maturing)
+[![R-CMD-check](https://github.com/gorcha/shinypages/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/gorcha/shinypages/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 shinypages is a simple multi-page router for Shiny applications, very

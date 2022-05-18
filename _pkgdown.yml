@@ -1,0 +1,26 @@
+url: https://gorcha.github.io/shinypages/
+template:
+  bootstrap: 5
+
+development:
+  mode: auto
+
+reference:
+- title: Create a router
+  contents:
+  - '`router_page`'
+  - '`router`'
+  - '`add_router_callback`'
+
+- title: Add it to a Shiny application
+  contents:
+  - '`router_ui`'
+  - '`router_server`'
+  - '`router_link`'
+
+- title: Use the page in your application
+  contents:
+  - '`change_router_page`'
+  - '`get_router_page`'
+  - '`get_router_page_title`'
+  - '`get_router_path`'

@@ -6,6 +6,9 @@ Authors@R:
 Description: A simple multi-page router for Shiny applications, using
     Shiny modules to selectively render content based on the URL.
 License: MIT + file LICENSE
+URL: https://github.com/gorcha/shinypages,
+    https://gorcha.github.io/shinypages/
+BugReports: https://github.com/gorcha/shinypages/issues
 Imports: 
     htmltools,
     shiny
