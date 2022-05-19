@@ -1,6 +1,6 @@
 Package: shinypages
 Title: Multi-page Shiny Applications
-Version: 0.1.0
+Version: 0.1.0.9000
 Authors@R: 
     person("Danny", "Smith", , "danny@gorcha.org", role = c("aut", "cre"))
 Description: A simple multi-page router for Shiny applications, using
