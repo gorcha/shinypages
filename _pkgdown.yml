@@ -14,8 +14,7 @@ reference:
 
 - title: Add it to a Shiny application
   contents:
-  - '`router_ui`'
-  - '`router_server`'
+  - '`router_shiny`'
   - '`router_link`'
 
 - title: Use the page in your application

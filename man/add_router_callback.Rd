@@ -35,7 +35,7 @@ add_router_callback(
   router,
   "default",
   function(session) {
-    if ("dev" in session$groups) {
+    if ("dev" \%in\% session$groups) {
       "devlanding"
     } else {
       "home"
@@ -43,4 +43,7 @@ add_router_callback(
   }
 )
 }
+}
+\seealso{
+\code{\link[=router]{router()}}
 }

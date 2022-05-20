@@ -18,7 +18,7 @@ change_router_page(
 \item{session}{The current shiny session object.}
 }
 \description{
-Change router page
+Set the current router page to \code{path}.
 }
 \examples{
 \dontrun{

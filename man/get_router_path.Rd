@@ -2,7 +2,7 @@
 % Please edit documentation in R/shiny.R
 \name{get_router_path}
 \alias{get_router_path}
-\title{Get the current router path from the URL}
+\title{Get the path of the current page}
 \usage{
 get_router_path(session = shiny::getDefaultReactiveDomain())
 }
@@ -13,7 +13,7 @@ get_router_path(session = shiny::getDefaultReactiveDomain())
 The current router path.
 }
 \description{
-Get the current router path from the URL
+Extract the current router path from the URL.
 }
 \examples{
 \dontrun{

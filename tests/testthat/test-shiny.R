@@ -9,7 +9,7 @@ test_that("router_server", {
     userData = list()
   )
 
-  rt <- router(router_page("", htmltools::tagList()))
+  rt <- router(router_page("", function(id) htmltools::tagList()))
 
   expect_s3_class(router_server(rt, list(), list(), session), "Observer.event")
 })

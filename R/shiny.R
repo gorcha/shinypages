@@ -1,34 +1,31 @@
 
-#' Router UI output
+#' Router server and UI
 #'
-#' Placeholder that will be used to render the router page. This can be placed
-#' anywhere within a shiny UI.
+#' @description
+#' The `router_server()` and `router_ui()` functions are used to render page
+#' modules served by a `[router()]` into a Shiny application.
+#'
+#' The content for the current page will be rendered in place of `router_ui()`.
+#' This can appear anywhere inside the UI definition, so that common UI elements
+#' like `head()` tags don't need to be repeated in each page module.
+#'
+#' `router_server()` can be called from anywhere inside the `server()` function
+#' of the Shiny application.
 #'
 #' @param id Router id.
-#'
-#' @return An HTML output element.
-#' @export
-router_ui <- function(id = "__router__") {
-  shiny::uiOutput(id)
-}
-
-#' Router server function
-#'
-#' Register server code. This should be placed in your shiny server, and have a
-#' corresponding [router_ui()] element.
-#'
-#' @param router A router object.
+#' @param router A shinypages `router()` object.
 #' @param input Shiny server `input` object.
 #' @param output Shiny server `output` object.
 #' @param session Shiny server `session` object.
-#' @param id Router id.
 #'
-#' @return A shiny observer reference class object. See [shiny::observe()] for
-#'   details.
-#' @export
+#' @return `router_server()` returns a Shiny observer reference class object.
+#'   See [shiny::observe()] for details.
+#' @return `router_ui()` returns an HTML output element.
+#'
+#' @name router_shiny
+#' @seealso [router()]
 #'
 #' @examples
-#' ## Only run examples in interactive R sessions
 #' if (interactive()) {
 #'
 #' ui_test <- function(id) {
@@ -48,44 +45,59 @@ router_ui <- function(id = "__router__") {
 #'   router_server(test_router, input, output, session)
 #' }
 #'
-#' shinyApp(ui, server)
+#' shiny::shinyApp(ui, server)
 #' }
+NULL
+
+#' @rdname router_shiny
+#' @export
+router_ui <- function(id = "__router__") {
+  shiny::uiOutput(id)
+}
+
+router_serve_page <- function(router, session) {
+  url_path <- get_router_path()
+
+  # Select route
+  # - use default if blank
+  # - check for matching pages
+  # - set page to 404 if nothing else is matched
+  if (url_path == "") {
+    if (!is.null(router$callbacks$default)) {
+      page <- router$routes[[router$callbacks$default(session)]]
+    } else {
+      page <- router$default
+    }
+    shiny::updateQueryString(clean_hash(page$path), mode = "replace", session)
+  } else {
+    page <- do.call(
+      switch,
+      c(list(url_path),
+        router$routes,
+        list(router$http$page_404))
+    )
+  }
+
+  # If not authorised set page to 403
+  if (!is.null(page$authorised) && !page$authorised(session)) {
+    page <- router$http$page_403
+  }
+
+  page
+}
+
+#' @rdname router_shiny
+#' @export
 router_server <- function(router, input, output, session, id = "__router__") {
-  stopifnot(inherits(router, "router"))
+  stopifnot("`router` is not a shinypages <router> object" = inherits(router, "router"))
 
   session$userData$router_page <- shiny::reactiveVal()
 
   shiny::observeEvent(shiny::getUrlHash(session), priority = 1000, {
-    url_path <- get_router_path()
-
-    # Select route
-    # - use default if blank
-    # - check for matching pages
-    # - set page to 404 if nothing else is matched
-    if (url_path == "") {
-      if (!is.null(router$callbacks$default)) {
-        page <- router$routes[[router$callbacks$default(session)]]
-      } else {
-        page <- router$default
-      }
-      shiny::updateQueryString(clean_hash(page$path), mode = "replace", session)
-    } else {
-      page <- do.call(
-        switch,
-        c(list(url_path),
-          router$routes,
-          list(router$http$page_404))
-      )
-    }
-
-    # If not authorised set page to 403
-    if (!is.null(page$authorised) && !page$authorised(session)) {
-      page <- router$http$page_403
-    }
+    page <- router_serve_page(router, session)
 
     # Update router_page reactive
     session$userData$router_page(page)
-
 
     if (!is.null(page$server_module)) {
       page$server_module(paste0(id, router_ns(get_router_page()$path)))
@@ -118,6 +130,8 @@ router_link <- function(path) {
 
 #' Change router page
 #'
+#' Set the current router page to `path`.
+#'
 #' @param path Path of the destination page.
 #' @param mode Argument passed to [shiny::updateQueryString()].
 #' @param session The current shiny session object.
@@ -132,7 +146,10 @@ change_router_page <- function(path, mode = "push", session = shiny::getDefaultR
   shiny::updateQueryString(clean_hash(path), mode, session)
 }
 
-#' Get the current `router_page` object
+#' Get the current page
+#'
+#' Get the `router_page()` object for the current page. Can be used to access
+#' metadata and other page attributes.
 #'
 #' @param session The current shiny session object.
 #'
@@ -147,7 +164,9 @@ get_router_page <- function(session = shiny::getDefaultReactiveDomain()) {
   session$userData$router_page()
 }
 
-#' Get the title of the current router page
+#' Get the title of the current page
+#'
+#' Get the title attribute of the current page.
 #'
 #' @param session The current shiny session object.
 #'
@@ -166,7 +185,30 @@ get_router_page_title <- function(session = shiny::getDefaultReactiveDomain()) {
     page()$title
 }
 
-#' Get the current router path from the URL
+#' Get the metadata of the current page
+#'
+#' Get the list stored in the metadata attribute of the current page.
+#'
+#' @param session The current shiny session object.
+#'
+#' @return The title of the current [router_page()].
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' get_router_page_title()
+#' }
+get_router_page_metadata <- function(session = shiny::getDefaultReactiveDomain()) {
+  page <- session$userData$router_page
+  if (is.null(page))
+    NULL
+  else
+    page()$metadata
+}
+
+#' Get the path of the current page
+#'
+#' Extract the current router path from the URL.
 #'
 #' @param session The current shiny session object.
 #'

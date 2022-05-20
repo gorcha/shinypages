@@ -2,6 +2,7 @@
 % Please edit documentation in R/router.R
 \name{router}
 \alias{router}
+\alias{print.router}
 \title{Create a router}
 \usage{
 router(
@@ -11,14 +12,16 @@ router(
   page_403 = router_page("403", ui_403),
   page_404 = router_page("404", ui_404)
 )
+
+\method{print}{router}(x, short = FALSE, ...)
 }
 \arguments{
 \item{...}{A set of \code{\link[=router_page]{router_page()}} objects. The first page is considered the
 default, and will be used if no path is provided.}
 
-\item{callback_pageload}{A function that is called immediately after each
-page is rendered. The function should take a \code{router_page} object and shiny
-session as input.}
+\item{callback_pageload}{A function that is called immediately after page
+content is rendered. The function should take a \code{router_page} object and
+shiny session as input.}
 
 \item{callback_default}{A function that determines the default page. The
 function should take a shiny session as input and return the path of the
@@ -29,13 +32,61 @@ unauthorised page.}
 
 \item{page_404}{A \code{router_page} to be used when a user attempts to access a
 page that doesn't exist.}
+
+\item{x}{A \code{router} object.}
+
+\item{short}{Should a one line summary be printed?}
 }
 \value{
 A \code{router} object.
 }
 \description{
-Create a router
+A \code{\link[=router]{router()}} defines a multi-page Shiny application using a set of
+\code{\link[=router_page]{router_page()}}s. See \code{\link[=router_server]{router_server()}} and \code{\link[=router_ui]{router_ui()}} to create a
+multi-page application from the returned \code{router} object.
 }
+\section{Callbacks}{
+
+
+The callback function arguments allow user customisation of the page serving
+process.
+\itemize{
+\item \code{callback_pageload} is called after a new page is loaded. It should be a
+function with the signature \verb{function(page, session)}, taking a \code{router_page}
+and a shiny session as input. Thh return value of the function is ignored.
+
+Useful to perform operations based on page metadata.\if{html}{\out{<div class="sourceCode r">}}\preformatted{callback_pageload = function(page, session) \{
+  shinyjs::runjs(paste0("document.title = \\"", page$title, "\\";"))
+\}
+}\if{html}{\out{</div>}}
+\item \code{callback_default()} is called to determine the path to serve when the
+default page is requested. It should be a function with the signature
+\verb{function(session)}, taking a shiny session as input and returning the path
+of the page to load.
+
+Useful for setting per-user or per-group home pages.\if{html}{\out{<div class="sourceCode r">}}\preformatted{callback_default = function(session) \{
+  if ("dev" \%in\% session$groups) \{
+    "devlanding"
+  \} else \{
+    "home"
+  \}
+)
+}\if{html}{\out{</div>}}
+}
+}
+
+\section{HTTP response pages}{
+
+
+\code{router_page}s are served in place of common HTTP response codes. These can
+be customised:
+\itemize{
+\item \code{page_403} is served when the \code{authorised} function of a page returns
+\code{FALSE}.
+\item \code{page_404} is served when an unknown path is requested.
+}
+}
+
 \examples{
 if (interactive()) {
 
@@ -48,4 +99,9 @@ other_page - router_page("other", ui_test)
 
 test_router <- router(home_page, other_page)
 }
+}
+\seealso{
+\code{\link[=router_page]{router_page()}} to create pages, \code{\link[=add_router_callback]{add_router_callback()}} to add
+callback functions to an existing router, and \code{\link[=router_server]{router_server()}} and
+\code{\link[=router_ui]{router_ui()}} to add a router to a Shiny application.
 }

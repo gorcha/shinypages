@@ -2,40 +2,97 @@
 % Please edit documentation in R/router.R
 \name{router_page}
 \alias{router_page}
+\alias{print.router_page}
 \title{Create a router page}
 \usage{
 router_page(
   path,
   ui_module,
   server_module = NULL,
-  title = "",
+  title = NULL,
   authorised = NULL,
   metadata = list()
 )
+
+\method{print}{router_page}(x, short = FALSE, ...)
 }
 \arguments{
 \item{path}{Path for this page.}
 
-\item{ui_module}{Shiny UI module to render.}
+\item{ui_module}{Shiny module UI to render.}
 
 \item{server_module}{Shiny server module to render.}
 
-\item{title}{Page title.}
+\item{title}{Page title. This can be accessed as reactive via
+\code{\link[=get_router_page_title]{get_router_page_title()}}.}
 
 \item{authorised}{A function that determines whether the current session is
-authorised to view this page. The function should take a session object as
+authorised to view this page. The function should take a shiny session as
 input, and return \code{TRUE} if the session is authorised to view this page and
 \code{FALSE} otherwise.}
 
 \item{metadata}{An arbitrary list of page metadata. This can be accessed as a
-reactive via \code{get_router_page()} or used in router callbacks.}
+reactive via \code{\link[=get_router_page_metadata]{get_router_page_metadata()}} or used in router callbacks.}
+
+\item{x}{A \code{router_page} object.}
+
+\item{short}{Should a one line summary be printed?}
+
+\item{...}{Additional arguments for specific methods.}
 }
 \value{
 A \code{router_page} object.
 }
 \description{
-Create a router page
+A page attaches a Shiny module to a path, to be included in a \code{\link[=router]{router()}}
+definition.
 }
+\section{Shiny module}{
+
+
+The \code{ui_module} and \code{server_module} arguments take shiny module UI and server
+functions respectively. The module functions shouldn't take any arguments
+apart from \code{id}.\if{html}{\out{<div class="sourceCode r">}}\preformatted{ui_test <- function(id) \{
+  htmltools::p("Test!")
+\}
+
+server_test <- function(id) \{
+  shiny::moduleServer(id, function(input, output, session) \{ \})
+\}
+
+router_page("test", ui_test, server_test)
+}\if{html}{\out{</div>}}
+
+For an introduction to Shiny modules, see the \href{https://shiny.rstudio.com/articles/modules.html}{Modularizing Shiny app code} article.
+}
+
+\section{Authorising sessions}{
+
+
+A page can be configured to check if a session is authorised to view it
+before serving the page. To check authorisation, pass a function in the
+\code{authorised} argument that takes a shiny session as input and returns \code{TRUE}
+if a user is authorised to view the page and \code{FALSE} otherwise. For example:\if{html}{\out{<div class="sourceCode r">}}\preformatted{is_admin <- function(session) \{
+  "admin" \%in\% session$groups
+\}
+}\if{html}{\out{</div>}}
+
+The \code{authorised} function is run by the router before serving the page. If
+the function returns \code{FALSE}, the router will serve the 403 Forbidden page.
+}
+
+\section{Metadata}{
+
+
+The page can have two pieces of metadata attached:
+\itemize{
+\item A \code{title}, which can be retrieved inside a Shiny app with
+\code{\link[=get_router_page_title]{get_router_page_title()}}.
+\item \code{metadata}, a list of arbitray data, which can be retrieved inside a Shiny
+app with \code{\link[=get_router_page_metadata]{get_router_page_metadata()}}.
+}
+}
+
 \examples{
 if (interactive()) {
 
@@ -44,7 +101,7 @@ ui_test <- function(id) {
 }
 
 server_test <- function(id) {
-  moduleServer(id, function(input, output, session) { })
+  shiny::moduleServer(id, function(input, output, session) { })
 }
 
 home_page <- router_page("home", ui_test)
@@ -56,4 +113,7 @@ is_admin <- function(session) {
 
 admin_page <- router_page("admin", ui_test, authorised = is_admin)
 }
+}
+\seealso{
+\code{\link[=router]{router()}}
 }

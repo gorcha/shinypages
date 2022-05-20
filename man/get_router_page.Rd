@@ -2,7 +2,7 @@
 % Please edit documentation in R/shiny.R
 \name{get_router_page}
 \alias{get_router_page}
-\title{Get the current \code{router_page} object}
+\title{Get the current page}
 \usage{
 get_router_page(session = shiny::getDefaultReactiveDomain())
 }
@@ -13,7 +13,8 @@ get_router_page(session = shiny::getDefaultReactiveDomain())
 The current \code{\link[=router_page]{router_page()}} object.
 }
 \description{
-Get the current \code{router_page} object
+Get the \code{router_page()} object for the current page. Can be used to access
+metadata and other page attributes.
 }
 \examples{
 \dontrun{
