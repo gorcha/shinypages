@@ -2,7 +2,7 @@
 ui_403 <- function(id) {
   htmltools::tagList(
     htmltools::h2("Forbidden"),
-    htmltools::p("You are not authorised to access this site."),
+    htmltools::p("You are not authorised to access this page."),
     htmltools::p(htmltools::a(href = router_link("/"), "Home"))
   )
 }
