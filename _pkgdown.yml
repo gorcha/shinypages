@@ -22,4 +22,5 @@ reference:
   - '`change_router_page`'
   - '`get_router_page`'
   - '`get_router_page_title`'
+  - '`get_router_page_metadata`'
   - '`get_router_path`'

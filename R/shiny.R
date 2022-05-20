@@ -191,12 +191,12 @@ get_router_page_title <- function(session = shiny::getDefaultReactiveDomain()) {
 #'
 #' @param session The current shiny session object.
 #'
-#' @return The title of the current [router_page()].
+#' @return The metadata list for the current [router_page()].
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' get_router_page_title()
+#' get_router_page_metadata()
 #' }
 get_router_page_metadata <- function(session = shiny::getDefaultReactiveDomain()) {
   page <- session$userData$router_page

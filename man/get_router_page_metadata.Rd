@@ -10,13 +10,13 @@ get_router_page_metadata(session = shiny::getDefaultReactiveDomain())
 \item{session}{The current shiny session object.}
 }
 \value{
-The title of the current \code{\link[=router_page]{router_page()}}.
+The metadata list for the current \code{\link[=router_page]{router_page()}}.
 }
 \description{
 Get the list stored in the metadata attribute of the current page.
 }
 \examples{
 \dontrun{
-get_router_page_title()
+get_router_page_metadata()
 }
 }
