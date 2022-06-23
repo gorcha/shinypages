@@ -71,31 +71,50 @@ definition.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>path</dt>
 <dd><p>Path for this page.</p></dd>
+
+
 <dt>ui_module</dt>
 <dd><p>Shiny module UI to render.</p></dd>
+
+
 <dt>server_module</dt>
 <dd><p>Shiny server module to render.</p></dd>
+
+
 <dt>title</dt>
 <dd><p>Page title. This can be accessed as reactive via
 <code><a href="get_router_page_title.html">get_router_page_title()</a></code>.</p></dd>
+
+
 <dt>authorised</dt>
 <dd><p>A function that determines whether the current session is
 authorised to view this page. The function should take a shiny session as
 input, and return <code>TRUE</code> if the session is authorised to view this page and
 <code>FALSE</code> otherwise.</p></dd>
+
+
 <dt>metadata</dt>
 <dd><p>An arbitrary list of page metadata. This can be accessed as a
 reactive via <code><a href="get_router_page_metadata.html">get_router_page_metadata()</a></code> or used in router callbacks.</p></dd>
+
+
 <dt>x</dt>
 <dd><p>A <code>router_page</code> object.</p></dd>
+
+
 <dt>short</dt>
 <dd><p>Should a one line summary be printed?</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments for specific methods.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>router_page</code> object.</p>
+    
+
+<p>A <code>router_page</code> object.</p>
     </div>
     <div class="section level2">
     <h2 id="shiny-module">Shiny module<a class="anchor" aria-label="anchor" href="#shiny-module"></a></h2>
@@ -104,7 +123,8 @@ reactive via <code><a href="get_router_page_metadata.html">get_router_page_metad
 
 <p>The <code>ui_module</code> and <code>server_module</code> arguments take shiny module UI and server
 functions respectively. The module functions shouldn't take any arguments
-apart from <code>id</code>.</p><div class="sourceCode r"><pre><code><span class="va">ui_test</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span>
+apart from <code>id</code>.</p>
+<p></p><div class="sourceCode r"><pre><code><span class="va">ui_test</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu">htmltools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Test!"</span><span class="op">)</span>
 <span class="op">}</span>
 
@@ -123,7 +143,8 @@ apart from <code>id</code>.</p><div class="sourceCode r"><pre><code><span class=
 <p>A page can be configured to check if a session is authorised to view it
 before serving the page. To check authorisation, pass a function in the
 <code>authorised</code> argument that takes a shiny session as input and returns <code>TRUE</code>
-if a user is authorised to view the page and <code>FALSE</code> otherwise. For example:</p><div class="sourceCode r"><pre><code><span class="va">is_admin</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">session</span><span class="op">)</span> <span class="op">{</span>
+if a user is authorised to view the page and <code>FALSE</code> otherwise. For example:</p>
+<p></p><div class="sourceCode r"><pre><code><span class="va">is_admin</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">session</span><span class="op">)</span> <span class="op">{</span>
   <span class="st">"admin"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">session</span><span class="op">$</span><span class="va">groups</span>
 <span class="op">}</span></code></pre><p></p></div>
 <p>The <code>authorised</code> function is run by the router before serving the page. If
@@ -176,7 +197,7 @@ app with <code><a href="get_router_page_metadata.html">get_router_page_metadata(
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>
