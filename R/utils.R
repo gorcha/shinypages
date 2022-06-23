@@ -13,8 +13,7 @@ extract_path <- function(hash) {
 }
 
 has_cli <- function() {
-  requireNamespace("cli")
-  FALSE
+  requireNamespace("cli", quietly = TRUE)
 }
 
 tick_or_cross <- function(x, msg) {
