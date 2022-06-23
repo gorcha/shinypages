@@ -52,7 +52,9 @@ definition.
 
 The \code{ui_module} and \code{server_module} arguments take shiny module UI and server
 functions respectively. The module functions shouldn't take any arguments
-apart from \code{id}.\if{html}{\out{<div class="sourceCode r">}}\preformatted{ui_test <- function(id) \{
+apart from \code{id}.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{ui_test <- function(id) \{
   htmltools::p("Test!")
 \}
 
@@ -72,7 +74,9 @@ For an introduction to Shiny modules, see the \href{https://shiny.rstudio.com/ar
 A page can be configured to check if a session is authorised to view it
 before serving the page. To check authorisation, pass a function in the
 \code{authorised} argument that takes a shiny session as input and returns \code{TRUE}
-if a user is authorised to view the page and \code{FALSE} otherwise. For example:\if{html}{\out{<div class="sourceCode r">}}\preformatted{is_admin <- function(session) \{
+if a user is authorised to view the page and \code{FALSE} otherwise. For example:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{is_admin <- function(session) \{
   "admin" \%in\% session$groups
 \}
 }\if{html}{\out{</div>}}

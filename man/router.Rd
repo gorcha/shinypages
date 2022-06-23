@@ -55,7 +55,9 @@ process.
 function with the signature \verb{function(page, session)}, taking a \code{router_page}
 and a shiny session as input. Thh return value of the function is ignored.
 
-Useful to perform operations based on page metadata.\if{html}{\out{<div class="sourceCode r">}}\preformatted{callback_pageload = function(page, session) \{
+Useful to perform operations based on page metadata.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{callback_pageload = function(page, session) \{
   shinyjs::runjs(paste0("document.title = \\"", page$title, "\\";"))
 \}
 }\if{html}{\out{</div>}}
@@ -64,13 +66,15 @@ default page is requested. It should be a function with the signature
 \verb{function(session)}, taking a shiny session as input and returning the path
 of the page to load.
 
-Useful for setting per-user or per-group home pages.\if{html}{\out{<div class="sourceCode r">}}\preformatted{callback_default = function(session) \{
+Useful for setting per-user or per-group home pages.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{callback_default = function(session) \{
   if ("dev" \%in\% session$groups) \{
     "devlanding"
   \} else \{
     "home"
   \}
-)
+\}
 }\if{html}{\out{</div>}}
 }
 }

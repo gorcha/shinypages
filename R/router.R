@@ -173,7 +173,7 @@ print.router_page <- function(x, short = FALSE, ...) {
 #'     } else {
 #'       "home"
 #'     }
-#'   )
+#'   }
 #'   ```
 #'
 #' @section HTTP response pages:
